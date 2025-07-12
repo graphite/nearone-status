@@ -1,0 +1,63 @@
+<html>
+<body onload='getIps();'>
+<script>
+  async function fetchName(ip, result) {
+    try {
+      const response = await fetch('http://' + ip + ':3030/status');
+      const state = await response.json();
+      if (state['validator_account_id'] != '') {
+        result.innerText = 'Unavailable';
+      } else {
+        result.innerText = state['validator_account_id'];
+      }
+    } catch {
+      result.innerText = 'Unavailable';
+    }
+  }
+
+  async function getIps() {
+    const response = await fetch('https://nearone-nodes-ips.storage.googleapis.com/ips');
+    const content = document.getElementById('content');
+    const ips = await response.json();
+    for (const network in ips) {
+      const table = document.createElement('table');
+      table.border = 1;
+      table.cellPadding = 10;
+      const headers = document.createElement('tr');
+      const header = document.createElement('th');
+      header.colSpan = 5;
+      header.innerText = network;
+      headers.appendChild(header);
+      table.appendChild(headers);
+      for (const ip of ips[network]) {
+        const row = document.createElement('tr');
+        // This will contain the validator name or 'RPC' if not a validator or unavailable
+        const name = document.createElement('td');
+        name.innerText = 'Loading...';
+        row.appendChild(name);
+        fetchName(ip, name);
+        const ipField = document.createElement('td');
+        ipField.innerText = ip;
+        row.appendChild(ipField);
+        for (const [title, href] of Object.entries({
+            'Debug UI': 'http://debug.nearone.org/' + ip,
+            'Status page': 'http://' + ip + ':3030/status',
+            'Debug page': 'http://' + ip + ':3030/debug'
+	  })) {
+          const field = document.createElement('td');
+          const link = document.createElement('a');
+          link.innerText = title;
+          link.href = href;
+          field.appendChild(link);
+          row.appendChild(field);	
+        }
+        table.appendChild(row);
+      }
+      content.appendChild(table);
+      content.appendChild(document.createElement('br'));
+    }
+  }
+</script>
+<div id='content'></div>
+</body>
+</html>

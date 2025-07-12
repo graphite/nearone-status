@@ -1,0 +1,13 @@
+{
+  "timeZone": "Europe/Zurich",
+  "dependencies": {
+    "enabledAdvancedServices": []
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/compute.readonly",
+    "https://www.googleapis.com/auth/devstorage.read_write",
+    "https://www.googleapis.com/auth/script.external_request"
+  ],
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
+}
