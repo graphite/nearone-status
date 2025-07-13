@@ -11,7 +11,7 @@
         name.innerText = state['validator_account_id'];
       }
       for (const data of [
-          state['version'],
+          JSON.stringify(state['version']),
           state['protocol_version'],
           state['sync_info']['latest_block_height'],
           state['sync_info']['syncing'],
@@ -43,7 +43,7 @@
       table.appendChild(netHeaders);
       const headers = document.createElement('tr');
       for (const header of ['Validator Name', 'IP', 'Debug UI', 'Status Page', 'Debug Page', 'Version', 'Protocol Version', 'Latest Block Height', 'Syncing', 'Uptime (s)']) {
-        const th = document.createElemnet('th');
+        const th = document.createElement('th');
         th.innerText = header;
         headers.appendChild(th);
       }
