@@ -43,7 +43,7 @@ function run() {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'text/json',
-        
+        'Cache-Control': 'no-cache'
       },
     }
   );
